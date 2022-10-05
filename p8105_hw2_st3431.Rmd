@@ -68,8 +68,21 @@ professortrash_df=
   mutate(proftrash= "professor")
 ```
 
+Combining the data sets 
 
+```{r}
+trash_combined= 
+  bind_rows(mrtrash_df, professortrash_df) %>% 
+  janitor::clean_names() 
+ 
+  
+sum(professortrash_df$weight_tons)
 
+filter(mrtrash_df, year == 2020) %>% 
+  summarise(sum(sports_balls))
+```
+
+This data has some key variables such as the different types of trash that are found, including things like grocery bags, chip bags and other kinds of trash. The total weight of the trash in the professor trash wheel data set is 135.5 tons and the number of sports balls found in 2020 in the mr. trash wheel was 856.
 
 
 
