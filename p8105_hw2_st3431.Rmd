@@ -1,0 +1,77 @@
+---
+title: "p8105_hw2_st3431"
+output: github_document
+date: "2022-10-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+##Problem 1 
+
+```{r}
+subway_df=read_csv("hw2_data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
+  janitor::clean_names() %>%
+  select(ada, vending, line:entry) %>%
+   mutate(entry=recode(entry, `YES` = 'true', `NO` = 'false'), 
+         entry=factor(entry))
+
+```
+
+This data is not necessarily tidy because we need to convert the route variable to a long format which will help focus on specific routes. 
+
+```{r}
+subway_df %>% 
+  select(station_name, line) %>% 
+  distinct
+
+subway_df %>% 
+   filter(ada == TRUE) %>% 
+  select(station_name, line) %>% 
+  distinct
+
+subway_df %>% 
+  filter(vending == "NO") %>% 
+  pull(entry) %>% 
+  mean
+```
+
+```{r}
+```
+
+## Problem 2 
+
+Cleaning The Mr. Trash Sheet
+
+```{r}
+mrtrash_df=
+  read_excel("hw2_data/Trash Wheel Collection Data.xlsx", sheet="Mr. Trash Wheel") %>% 
+  janitor::clean_names() %>% 
+  drop_na(dumpster) %>% 
+  mutate(sports_balls, as.integer(round(sports_balls))) %>% 
+  mutate(across(.col= (c("year")), as.integer)) %>% 
+  mutate(mrtrash= "mr")
+```
+
+```{r}
+professortrash_df=
+  read_excel("hw2_data/Trash Wheel Collection Data.xlsx", sheet="Professor Trash Wheel") %>% 
+  janitor::clean_names() %>% 
+  drop_na(dumpster) %>% 
+  mutate(across(.col= (c("year")), as.integer)) %>% 
+  mutate(proftrash= "professor")
+```
+
+
+
+
+
+
+
+
