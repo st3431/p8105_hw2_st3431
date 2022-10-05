@@ -84,6 +84,43 @@ filter(mrtrash_df, year == 2020) %>%
 
 This data has some key variables such as the different types of trash that are found, including things like grocery bags, chip bags and other kinds of trash. The total weight of the trash in the professor trash wheel data set is 135.5 tons and the number of sports balls found in 2020 in the mr. trash wheel was 856.
 
+## Problem 3
+
+```{r}
+pols_month_df= 
+  read_csv("fivethirtyeight_datasets/pols-month.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(col= mon,into=c("year", "month", "day" )) %>% 
+  mutate(across(.col= c(year), as.integer)) %>% 
+  mutate(month= month.abb[month]) %>% 
+  mutate(president= case_when(
+    prez_gop==1 ~ "gop", prez_dem==1 ~ "dem")) %>%  
+  select(-prez_dem, -prez_gop, -day)
+
+snp_df= 
+  read_csv("fivethirtyeight_datasets/snp.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(date,into=c("month", "day", "year" )) %>% 
+  mutate(across(.col= c(year), as.integer)) %>% 
+  mutate(month= month.abb[month]) %>% 
+  mutate(year= if_else(year < 23, 1900 + year, 2000+ year)) %>% 
+  select(-day)
+
+
+unemployment_df= 
+  read_csv("fivethirtyeight_datasets/unemployment.csv") %>% 
+  janitor::clean_names() %>% 
+  pivot_longer(
+    jan:dec,
+    names_to= "month",
+    values_to= "unemployment percentage"
+  ) %>% 
+   mutate(across(.col= c(year), as.integer)) %>% 
+    mutate(month = recode(month, "jan" = "January", "feb" = "February", "mar" = "March", "apr" = "April", "may" = "May", "jun" = "June", "jul" = "July", "aug" = "August", "sep" = "September", "oct" = "October", "nov" = "November", "dec" = "December"))
+```
+
+
+
 
 
 
