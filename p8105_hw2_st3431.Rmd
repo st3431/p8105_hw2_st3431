@@ -119,9 +119,22 @@ unemployment_df=
     mutate(month = recode(month, "jan" = "January", "feb" = "February", "mar" = "March", "apr" = "April", "may" = "May", "jun" = "June", "jul" = "July", "aug" = "August", "sep" = "September", "oct" = "October", "nov" = "November", "dec" = "December"))
 ```
 
+Combining the data sets 
+
+```{r}
+snp_pols_df= 
+  left_join(pols_month_df, snp_df, by = c("year", "month"))
+ 
+final_df=
+  left_join(snp_pols_df, unemployment_df, by = c("year", "month"))
+
+dim(final_df)
+min(final_df$year)
+max(final_df$year)
+```
 
 
-
+The first data set, pol-month has data which identifies if a candidate is a democrat or republican and has important variables such as "year" "month" "gov_gop" and "sen_dem". The second data set, snp, is a data set containing stock indexes with important variables such as "year", "month". The third data set, unemployment, shows unemployment percentages in years and months. The dimensions of the final data frame is 822, 11 with the years ranging from 1947 to 2015.
 
 
 
